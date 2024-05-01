@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <limits>
 
 // render includes
 #include <GL/glew.h>
@@ -20,20 +21,19 @@
 #include "imgui_impl_opengl3.h"
 
 #include "shader.h"
-#include "object.h"
+#include "bezier.h"
+#include "grid.h"
 
-struct Transformation
-{
-	std::string name{};
-	glm::mat4 t{};
-};
+
+#ifdef _WIN32
+	#define GLFW_EXPOSE_NATIVE_WIN32
+	#include <GLFW/glfw3native.h>
+	#include <windows.h>
+#endif
 
 class Application
 {
 public:
-	// settings
-
-
 	int m_SCR_WIDTH{1440};
 	int m_SCR_HEIGHT{1080};
 	const float m_viewport_ratio{m_SCR_HEIGHT/static_cast<float>(m_SCR_WIDTH)};
@@ -45,37 +45,22 @@ public:
 	GLFWwindow* m_window{};
 
 	Shader m_shader{};
+	Shader m_circleShader{};
 
-	glm::mat4 modelTransformation{1.0f};
+	Bezier m_curve{};
+	Grid m_grid{m_VIEW_WIDTH, m_VIEW_HEIGHT, 50, 50};
 
-	Transformation scale{"Scale", glm::mat4{1.0f}};
-	Transformation rotate{"Rotate", glm::mat4{1.0f}};
-	Transformation translate{"Translate", glm::mat4{1.0f}};
-	std::vector<Transformation*> modelTransformationComponents{};
-
-	std::vector<std::string> obj_names{};
-
-	unsigned int m_VAO;
-	unsigned int m_ColorVBO;
-	unsigned int m_VBO;
-	unsigned int m_EBO;
-
-	bool firstMouse{};
-	float lastX{};
-	float lastY{};
+	bool mouseDragging{false};
+	double lastX{};
+	double lastY{};
 
 	bool vsync{true};
-	bool useGPU{true};
-	bool wireframe{false};
-	bool useEBO{true};
-
-	Object* obj;
 
 	void draw();
 
 	void process_input();
 
-	public:
+public:
 
 	Application();
 
@@ -95,9 +80,10 @@ public:
 
 	void close();
 
-	void reload_data();
-
-	void print_debug();
+	double lastTime{};
+	double currentTime{};
+	double deltaTime{};
+	double totalTime{};
 };
 
 static void framebuffer_size_callback(GLFWwindow*, int, int);

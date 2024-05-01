@@ -6,7 +6,7 @@ FLAGS =-std=c++2b -w -g
 
 TARGETS = $(subst src/, , $(wildcard src/*.cpp))
 
-all: clean clean2 $(TARGETS:.cpp=.o)
+all: clean $(TARGETS:.cpp=.o)
 	$(CXX) *.o -o $(EXE) $(LINK) $(FLAGS)
 
 clean2:
