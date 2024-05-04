@@ -25,7 +25,7 @@ public:
 	std::vector<glm::vec4> m_data{};
 	std::vector<glm::vec4> m_color_data{};
 
-	glm::vec4 m_line_color{0.2, 0.15, 0.25, 0.25};
+	glm::vec4 m_line_color{1, 1, 1, 0.1};
 
 	Grid(unsigned int width, unsigned int height, unsigned int xCount, unsigned int yCount);
 

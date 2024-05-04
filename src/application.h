@@ -23,13 +23,14 @@
 #include "shader.h"
 #include "bezier.h"
 #include "grid.h"
+#include "camera.h"
 
 
-#ifdef _WIN32
-	#define GLFW_EXPOSE_NATIVE_WIN32
-	#include <GLFW/glfw3native.h>
-	#include <windows.h>
-#endif
+// #ifdef _WIN32
+// 	#define GLFW_EXPOSE_NATIVE_WIN32
+// 	#include <GLFW/glfw3native.h>
+// 	#include <windows.h>
+// #endif
 
 class Application
 {
@@ -46,19 +47,39 @@ public:
 
 	Shader m_shader{};
 	Shader m_circleShader{};
+	Shader m_gridShader{};
 
 	Bezier m_curve{};
-	Grid m_grid{m_VIEW_WIDTH, m_VIEW_HEIGHT, 50, 50};
+	Grid m_grid{m_VIEW_WIDTH, m_VIEW_HEIGHT, 25, 25};
 
 	bool mouseDragging{false};
 	double lastX{};
 	double lastY{};
+
+	glm::vec2 m_mousePos{};
+	glm::vec3 m_mousePos3D{};
 
 	bool vsync{true};
 
 	void draw();
 
 	void process_input();
+
+	Camera m_camera{};
+
+	glm::mat4 m_modelViewProjectionMatrix{1.0};
+	glm::mat4 m_projection{1.0};
+	glm::mat4 m_view{1.0};
+	glm::mat4 m_model{1.0};
+	glm::mat4 m_translate{1.0};
+	glm::mat4 m_rotate{1.0};
+	glm::mat4 m_scale{1.0};
+	std::vector<glm::mat4*> m_modelViewProjectionComponents{};
+
+	glm::vec2 normalizePoint(double x, double y);
+	void updateMousePos3D();
+
+	float m_zoom{1.0f};
 
 public:
 

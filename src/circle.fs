@@ -10,10 +10,10 @@ void main()
 
 	if (distance <= 0.5)
 	{
-		FragColor = vec4(color); // Inside the circle, set color to red
+		FragColor = vec4(color);
 	}
 	else
 	{
-		discard; // Outside the circle, discard the fragment
+		discard;
 	}
 }

@@ -24,9 +24,10 @@ public:
 	unsigned int m_circleColorVBO{};
 
 	Bezier();
-	void addPoint(glm::vec4 p);
+	void addPoint(glm::vec3 p);
 	void removePoint();
-	std::vector<glm::vec4> m_control_points{};
+	std::vector<glm::vec3> m_control_points{};
+	glm::vec3 m_center_point{};
 	glm::mat4 m_points{};
 
 	bool m_showScaffolding{true};
@@ -35,16 +36,16 @@ public:
 
 	unsigned int m_resolution{50};
 
-	std::vector<glm::vec4> m_data{};
+	std::vector<glm::vec3> m_data{};
 	std::vector<glm::vec4> m_color_data{};
-	std::vector<glm::vec4> m_intermediate_data{};
-	std::vector<glm::vec4> m_scaffolding_data{};
+	std::vector<glm::vec3> m_intermediate_data{};
+	std::vector<glm::vec3> m_scaffolding_data{};
 	std::vector<glm::vec4> m_scaffolding_color_data{};
 
 	void populateMatrix();
-	glm::vec4 evaluate(float t);
+	glm::vec3 evaluate(float t);
 	void print(glm::mat4);
-	void print(glm::vec4);
+	void print(glm::vec3);
 	void printDebug();
 
 	void draw();
@@ -52,9 +53,13 @@ public:
 
 	void init();
 
-	glm::vec4& closestPoint(double mouseX, double mouseY);
+	void movePoint(glm::vec3 newPos);
+	void calculateCenterPoint();
 
-	glm::vec4* m_selected_point{};
+	glm::vec3& closestPoint(glm::vec3 mousePos);
+
+
+	glm::vec3* m_selected_point{};
 
 private:
 	std::vector<glm::vec4> m_colors{};
