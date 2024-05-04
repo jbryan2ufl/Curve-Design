@@ -70,7 +70,7 @@ void Application::draw()
 			m_translate = glm::mat4{1.0f};
 			m_rotate = glm::mat4{1.0f};
 			m_scale = glm::mat4{1.0f};
-			m_zoom = 0;
+			m_zoom = 1;
 		}
 
 		ImGui::Checkbox("Scaffolding", &m_curve.m_showScaffolding);
